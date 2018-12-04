@@ -54,13 +54,14 @@ class HumanPlayer(Player):
         human_move = input("What's your move? ")
         while human_move not in moves:
             human_move = input("What's your move? ")
-        return move
+        return human_move
 
 class RandomPlayer(Player):
     def __init__ (self):
         Player.__init__(self)
     def move(self): #edite again 
-        return self.moves[randint(0, len(self.moves)-1)] #if i want him to count from 0
+        return random.choice(moves)
+        # self.moves[randint(0, len(self.moves)-1)] #if i want him to count from 0
                                                          #randint(-1,2)
 
 class ReflectPlayer(Player):
