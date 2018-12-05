@@ -1,24 +1,27 @@
-
 #!/usr/bin/env python3
 
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 """The Player class is the parent class for all of the Players
 in this game"""
-import random
+
 moves = ['rock', 'paper', 'scissors']
 
+
 class Player:
-    def __init__ (self):
-        self.score = 0  
-        self.my_move = None
-        self.their_move = None
+
+    import random
+
+    def __init__(self):
+        self.score = 0
 
     def move(self):
         return 'rock'
 
-    def learn(self, my_move, their_move):
+    def learn(self, their_move):
         pass
+
+
 
 def beats(one, two):
     return ((one == 'rock' and two == 'scissors') or
@@ -26,26 +29,27 @@ def beats(one, two):
             (one == 'paper' and two == 'rock'))
 
 
-class HumanPlayer(Player):  
-    def __init__ (self):
+class HumanPlayer(Player):
+    def __init__(self):
         Player.__init__(self)
 
-    def move(self): 
+    def move(self):
         human_move = input("What's your move? xx ")
         while human_move not in moves:
             human_move = input("What's your move? ")
         return human_move
 
-class RandomPlayer(Player):  
-    def __init__ (self):
+
+class RandomPlayer(Player):
+    def __init__(self):
         Player.__init__(self)
 
-    def move(self): 
+    def move(self):
         return random.choice(moves)
-        
+
 
 class ReflectPlayer(Player):
-    def __init__ (self):
+    def __init__(self):
         Player.__init__(self)
         self.index = 0
 
@@ -54,43 +58,47 @@ class ReflectPlayer(Player):
 
     def move(self):
         if self.index == 0:
-            self.index +1
+            self.index + 1
             return random.choice(moves)
         else:
             return self.their_move
 
 
 class CyclerPlayer(Player):
-    def __init__ (self):
+    def __init__(self):
         Player.__init__(self)
-        self.index = 0
+        self.index = -1
+
     def move(self):
+        self.index += 1
         if self.index % 3 == 0 :
             return "rock"
-            self.index +1
+
         elif self.index % 3 == 1:
             return "paper"
-            self.index +1
+
         else:
             return "scissors"
-        class Game:
+
+
+class Game:
+
     def __init__(self, p1, p2):
         self.p1 = p1
         self.p2 = p2
 
-    def play_round(self): 
+    def play_round(self):
         move1 = self.p1.move()
-        move2 = self.p2.move() 
+        move2 = self.p2.move()
         self.p2.learn(move1)
         print(f"Player 1: {move1}  Player 2: {move2}")
         if move1 == move2:
             return "No winner.\n"
-        self.p2.learn(move2, move1)
-        if beats(move1,move2): 
+        if beats(move1, move2):
             print("Player 1 WINS")
             self.p1.score += 1
         else:
-            print("Player 2 WIN")  
+            print("Player 2 WIN")
             self.p2.score += 1
         print(f"plyer 1 score =  {self.p1.score}")
         print(f"plyer 2 score =  {self.p2.score}")
@@ -104,16 +112,34 @@ class CyclerPlayer(Player):
 
 if __name__ == '__main__':
     while True:
-        choice = input ("************** Welcome to AHDAB Rock-Paper-Scissors based Games ******************"
-    "\n*******************************************************************************"
-    "\n*                                OPTIONS                                      *"
-    "\n*******************************************************************************"
-    "\n* [1] - Random                                                                *"
-    "\n* [2] - Reflect                                                               *"
-    "\n* [3] - Cycler                                                                *"
-    "\n* [4] - Exit                                                                  *"
-    "\n*******************************************************************************"
-    "\n Please select an option (1, 2, 3 or 4): ")
+        choice = input("************** "
+                       "Welcome to AHDAB Rock-Paper-Scissors based Games "
+                       "******************"
+                       "\n************************"
+                       "***************************"
+                       "****************************"
+                       "\n*                               "
+                       "OPTIONS "
+                       "                                     *"
+                       "\n*************************"
+                       "*****************************"
+                       "*************************"
+                       "\n* [1] - Random               "
+                       "                      "
+                       "                           *"
+                       "\n* [2] - Reflect              "
+                       "                       "
+                       "                          *"
+                       "\n* [3] - Cycler            "
+                       "                         "
+                       "                           *"
+                       "\n* [4] - Exit                   "
+                       "                        "
+                       "                       *"
+                       "\n**************************"
+                       "******************************"
+                       "***********************"
+                       "\n Please select an option (1, 2, 3 or 4): ")
         if choice == "4":
             print("Goodbye .")
             quit()
