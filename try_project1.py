@@ -5,13 +5,11 @@ and reports both Player's scores each round."""
 """The Player class is the parent class for all of the Players
 in this game"""
 
+import random
 moves = ['rock', 'paper', 'scissors']
 
 
 class Player:
-
-    import random
-
     def __init__(self):
         self.score = 0
 
@@ -20,7 +18,6 @@ class Player:
 
     def learn(self, their_move):
         pass
-
 
 
 def beats(one, two):
@@ -50,17 +47,16 @@ class RandomPlayer(Player):
 
 class ReflectPlayer(Player):
     def __init__(self):
-        Player.__init__(self)
-        self.index = 0
+        self.index = -1
 
     def learn(self, their_move):
         self.their_move = their_move
 
     def move(self):
-        if self.index == 0:
-            self.index + 1
+    	self.index +=1
+    	if self.index == 0:
             return random.choice(moves)
-        else:
+    	else:
             return self.their_move
 
 
@@ -69,12 +65,13 @@ class CyclerPlayer(Player):
         Player.__init__(self)
         self.index = -1
 
+
     def move(self):
-        self.index += 1
+        self.index +=1
         if self.index % 3 == 0 :
             return "rock"
 
-        elif self.index % 3 == 1:
+        elif self.index % 3 == 1 :
             return "paper"
 
         else:
@@ -86,6 +83,8 @@ class Game:
     def __init__(self, p1, p2):
         self.p1 = p1
         self.p2 = p2
+        self.score1 = 0
+        self.score2 = 0
 
     def play_round(self):
         move1 = self.p1.move()
@@ -96,19 +95,20 @@ class Game:
             return "No winner.\n"
         if beats(move1, move2):
             print("Player 1 WINS")
-            self.p1.score += 1
+            self.score1 += 1
         else:
             print("Player 2 WIN")
-            self.p2.score += 1
-        print(f"plyer 1 score =  {self.p1.score}")
-        print(f"plyer 2 score =  {self.p2.score}")
+            self.score2 += 1
+        print(f"plyer 1 score =  {self.score1}")
+        print(f"plyer 2 score =  {self.score2}")
 
     def play_game(self):
+        rounds = int(input('How many rounds do you want to play? '))
         print("Game start!")
-        for round in range(3):
-            print(f"Round {round}:")
+        for round in range(1, rounds+1):
+            print(f"\n..........\n Round {round}\n..........\n")
             self.play_round()
-        print("Game over!")
+        print(f"\n..........\n Game over!\n..........\n")
 
 if __name__ == '__main__':
     while True:
@@ -157,4 +157,4 @@ if __name__ == '__main__':
             break
         else:
             print("WRONG INPUT!!!! PLEASE WRITE AGAIN")
-            choice = input(" ask user ..")
+            choice = input("What's your option? --")
