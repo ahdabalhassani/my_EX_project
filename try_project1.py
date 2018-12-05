@@ -25,33 +25,6 @@ def beats(one, two):
             (one == 'scissors' and two == 'paper') or
             (one == 'paper' and two == 'rock'))
 
-class Game:
-    def __init__(self, p1, p2):
-        self.p1 = p1
-        self.p2 = p2
-
-    def play_round(self): 
-        move1 = self.p1.move()
-        move2 = self.p2.move()  
-        print(f"Player 1: {move1}  Player 2: {move2}")
-        if move1 == move2:
-            return "No winner.\n"
-        self.p2.learn(move2, move1)
-        if beats(move1,move2): 
-            print("Player 1 WINS")
-            self.p1.score += 1
-        else:
-            print("Player 2 WIN")  
-            self.p2.score += 1
-        print(f"plyer 1 score =  {self.p1.score}")
-        print(f"plyer 2 score =  {self.p2.score}")
-
-    def play_game(self):
-        print("Game start!")
-        for round in range(3):
-            print(f"Round {round}:")
-            self.play_round()
-        print("Game over!")
 
 class HumanPlayer(Player):  
     def __init__ (self):
@@ -74,26 +47,60 @@ class RandomPlayer(Player):
 class ReflectPlayer(Player):
     def __init__ (self):
         Player.__init__(self)
+        self.index = 0
+
+    def learn(self, their_move):
+        self.their_move = their_move
 
     def move(self):
-        if their_move == 'rock':  # their_move ??? how python knows this variable
-            return 'rock'
-        if their_move == 'paper':
-            return 'paper'
+        if self.index == 0:
+            self.index +1
+            return random.choice(moves)
         else:
-            return 'scissors'
+            return self.their_move
+
 
 class CyclerPlayer(Player):
     def __init__ (self):
         Player.__init__(self)
-
+        self.index = 0
     def move(self):
-        if my_move == 'rock':
-            return self.moves[1]  # paper
-        if my_move == 'paper':
-            return self.moves[2]  # scissors
+        if self.index % 3 == 0 :
+            return "rock"
+            self.index +1
+        elif self.index % 3 == 1:
+            return "paper"
+            self.index +1
         else:
-            return self.moves[0]  # rock
+            return "scissors"
+        class Game:
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+
+    def play_round(self): 
+        move1 = self.p1.move()
+        move2 = self.p2.move() 
+        self.p2.learn(move1)
+        print(f"Player 1: {move1}  Player 2: {move2}")
+        if move1 == move2:
+            return "No winner.\n"
+        self.p2.learn(move2, move1)
+        if beats(move1,move2): 
+            print("Player 1 WINS")
+            self.p1.score += 1
+        else:
+            print("Player 2 WIN")  
+            self.p2.score += 1
+        print(f"plyer 1 score =  {self.p1.score}")
+        print(f"plyer 2 score =  {self.p2.score}")
+
+    def play_game(self):
+        print("Game start!")
+        for round in range(3):
+            print(f"Round {round}:")
+            self.play_round()
+        print("Game over!")
 
 if __name__ == '__main__':
     while True:
